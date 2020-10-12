@@ -24,7 +24,22 @@ This document explains how to use the [Microsoft Azure Key Vault](https://azure.
 
 ## Packages
 
-Add a package reference to the [Azure.Extensions.AspNetCore.Configuration.Secrets](https://www.nuget.org/packages/Azure.Extensions.AspNetCore.Configuration.Secrets) package.
+Add a package reference to the following package:
+
+In ASP.NET Core 2.1 or later projects, replace the old `Microsoft.*` with the new `Azure.*` packages.
+
+| Old | New |
+|--|--|
+| [Microsoft.Extensions.Configuration.AzureKeyVault](https://www.nuget.org/packages/Microsoft.Extensions.Configuration.AzureKeyVault/) | [Azure.Extensions.AspNetCore.Configuration.Secrets](https://www.nuget.org/packages/Azure.Extensions.AspNetCore.Configuration.Secrets) |
+
+The new packages use a new version of the Azure SDK that includes breaking changes. The general usage patterns are unchanged. Some overloads and options may differ to adapt to changes in the underlying Azure SDK APIs.
+
+The old packages will:
+
+* Be supported by the ASP.NET Core team for the lifetime of .NET Core 2.1 and 3.1.
+* Not be included in .NET 5.
+
+When upgrading your project to .NET 5, transition to the `Azure.*` packages to maintain support.
 
 ## Sample app
 
@@ -197,7 +212,28 @@ If you receive an `Access denied` error, confirm that the app is registered with
 For information on using the provider with a managed identity and an Azure DevOps pipeline, see [Create an Azure Resource Manager service connection to a VM with a managed service identity](/azure/devops/pipelines/library/connect-to-azure#create-an-azure-resource-manager-service-connection-to-a-vm-with-a-managed-service-identity).
 
 ## Configuration options
+#### Old behavior
 
+The `Microsoft.*` packages integrated Azure services with the Configuration and Data Protection APIs.
+<xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> can accept an <xref:Microsoft.Extensions.Configuration.AzureKeyVault.AzureKeyVaultConfigurationOptions>:
+
+```csharp
+config.AddAzureKeyVault(
+    new AzureKeyVaultConfigurationOptions()
+    {
+        ...
+    });
+```
+
+| Property         | Description |
+| ---------------- | ----------- |
+| `Client`         | <xref:Microsoft.Azure.KeyVault.KeyVaultClient> to use for retrieving values. |
+| `Manager`        | <xref:Microsoft.Extensions.Configuration.AzureKeyVault.IKeyVaultSecretManager> instance used to control secret loading. |
+| `ReloadInterval` | `Timespan` to wait between attempts at polling the key vault for changes. The default value is `null` (configuration isn't reloaded). |
+| `Vault`          | Key vault URI. |
+#### New behavior
+
+New `Azure.*` packages integrate Azure services with the Configuration and Data Protection APIs.
 <xref:Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> can accept an <xref:Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationOptions>:
 
 ```csharp
@@ -370,7 +406,22 @@ This document explains how to use the [Microsoft Azure Key Vault](https://azure.
 
 ## Packages
 
-Add a package reference to the [Microsoft.Extensions.Configuration.AzureKeyVault](https://www.nuget.org/packages/Microsoft.Extensions.Configuration.AzureKeyVault/) package.
+Add a package reference to the following package:
+
+In ASP.NET Core 2.1 or later projects, replace the old `Microsoft.*` with the new `Azure.*` packages.
+
+| Old | New |
+|--|--|
+| [Microsoft.Extensions.Configuration.AzureKeyVault](https://www.nuget.org/packages/Microsoft.Extensions.Configuration.AzureKeyVault/) | [Azure.Extensions.AspNetCore.Configuration.Secrets](https://www.nuget.org/packages/Azure.Extensions.AspNetCore.Configuration.Secrets) |
+
+The new packages use a new version of the Azure SDK that includes breaking changes. The general usage patterns are unchanged. Some overloads and options may differ to adapt to changes in the underlying Azure SDK APIs.
+
+The old packages will:
+
+* Be supported by the ASP.NET Core team for the lifetime of .NET Core 2.1 and 3.1.
+* Not be included in .NET 5.
+
+When upgrading your project to .NET 5, transition to the `Azure.*` packages to maintain support.
 
 ## Sample app
 
