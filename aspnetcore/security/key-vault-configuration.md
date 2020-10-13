@@ -213,6 +213,9 @@ For information on using the provider with a managed identity and an Azure DevOp
 
 ## Configuration options
 
+#### Old behavior
+
+The `Microsoft.*` packages integrated Azure services with the Configuration and Data Protection APIs.
 <xref:Microsoft.Extensions.Configuration.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> can accept an <xref:Microsoft.Extensions.Configuration.AzureKeyVault.AzureKeyVaultConfigurationOptions>:
 
 ```csharp
@@ -227,6 +230,23 @@ config.AddAzureKeyVault(
 | ---------------- | ----------- |
 | `Client`         | <xref:Microsoft.Azure.KeyVault.KeyVaultClient> to use for retrieving values. |
 | `Manager`        | <xref:Microsoft.Extensions.Configuration.AzureKeyVault.IKeyVaultSecretManager> instance used to control secret loading. |
+| `ReloadInterval` | `Timespan` to wait between attempts at polling the key vault for changes. The default value is `null` (configuration isn't reloaded). |
+| `Vault`          | Key vault URI. |
+
+#### New behavior
+New `Azure.*` packages integrate Azure services with the Configuration and Data Protection APIs.
+<xref:Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationExtensions.AddAzureKeyVault*> can accept an <xref:Azure.Extensions.AspNetCore.Configuration.Secrets.AzureKeyVaultConfigurationOptions>:
+```csharp
+config.AddAzureKeyVault(
+    new AzureKeyVaultConfigurationOptions()
+    {
+        ...
+    });
+```
+| Property         | Description |
+| ---------------- | ----------- |
+| `Client`         | <xref:Azure.Security.KeyVault.Secrets.SecretClient> to use for retrieving values. |
+| `Manager`        | <xref:Azure.Extensions.AspNetCore.Configuration.Secrets.KeyVaultSecretManager> instance used to control secret loading. |
 | `ReloadInterval` | `Timespan` to wait between attempts at polling the key vault for changes. The default value is `null` (configuration isn't reloaded). |
 | `Vault`          | Key vault URI. |
 
